@@ -54,4 +54,17 @@ CREATE TABLE HoaDon (
 );
 GO
 
+-- Thêm khách hàng
+INSERT INTO KhachHang (MaKH, HoTen, SDT, DiaChi) VALUES
+('KH001', N'Nguyễn Văn A', '0901234567', N'123 Lê Lợi, Q1'),
+('KH002', N'Trần Thị B', '0912345678', N'45 Nguyễn Huệ, Q1'),
+('KH003', N'Lê Văn C', '0987654321', N'78 Hai Bà Trưng, Q3');
+GO
 
+-- Thêm dịch vụ phổ biến cho tiệm giặt ủi
+INSERT INTO DichVu (MaDV, TenDV, DonGia, DonViTinh) VALUES
+('DV01', N'Giặt + Ủi (trọn gói)', 25000, N'kg'),
+('DV02', N'Giặt khô (vest)',      50000, N'cái'),
+('DV03', N'Giặt chăn, mền',       60000, N'cái'),
+('DV04', N'Giặt giày thể thao',   70000, N'đôi');
+GO

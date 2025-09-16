@@ -70,7 +70,7 @@ public class HomePanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Dễ dàng - Nhanh chóng - Chính xác");
+        jLabel3.setText("Tiện Lợi - Sạch Sẽ - Thơm Ngát");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

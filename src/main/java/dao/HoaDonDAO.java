@@ -14,16 +14,13 @@ import java.util.List;
 import model.HoaDon;
 import util.DBConnection;
 
-
 public class HoaDonDAO {
 
     public List<HoaDon> getAll() {
         List<HoaDon> list = new ArrayList<>();
         String sql = "SELECT * FROM HoaDon";
 
-        try (Connection con = DBConnection.getConnection();
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+        try (Connection con = DBConnection.getConnection(); Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
                 HoaDon hd = new HoaDon(
@@ -42,10 +39,27 @@ public class HoaDonDAO {
         return list;
     }
 
+    public double getTongTienByMaPhieu(String maPhieu) {
+        String sql = "SELECT SUM(ct.SoLuong * dv.DonGia) AS TongTien "
+                + "FROM ChiTietPhieu ct "
+                + "JOIN DichVu dv ON ct.MaDV = dv.MaDV "
+                + "WHERE ct.MaPhieu = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, maPhieu);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("TongTien");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public boolean insert(HoaDon hd) {
         String sql = "INSERT INTO HoaDon(MaHD, MaPhieu, NgayLap, TongTien, DaThanhToan) VALUES (?,?,?,?,?)";
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, hd.getMaHD());
             ps.setString(2, hd.getMaPhieu());
@@ -63,8 +77,7 @@ public class HoaDonDAO {
 
     public boolean update(HoaDon hd) {
         String sql = "UPDATE HoaDon SET MaPhieu=?, NgayLap=?, TongTien=?, DaThanhToan=? WHERE MaHD=?";
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, hd.getMaPhieu());
             ps.setDate(2, hd.getNgayLap());
@@ -82,8 +95,7 @@ public class HoaDonDAO {
 
     public boolean delete(String maHD) {
         String sql = "DELETE FROM HoaDon WHERE MaHD=?";
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, maHD);
             return ps.executeUpdate() > 0;
@@ -93,6 +105,5 @@ public class HoaDonDAO {
         }
         return false;
     }
-    
-    
+
 }

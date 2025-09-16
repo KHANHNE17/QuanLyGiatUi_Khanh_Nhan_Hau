@@ -11,8 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
 import util.RefreshablePanel;
 
-
-public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
+public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel {
 
     private HoaDonDAO hdDAO = new HoaDonDAO();
     private DefaultTableModel modelHD;
@@ -23,6 +22,8 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
         initData();
         loadCboMaPhieu();
         refreshData();
+
+        cboMaPhieu.addActionListener(e -> loadTongTienTheoPhieu());
     }
 
     private void initData() {
@@ -36,13 +37,11 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
     public void refreshData() {
         modelHD.setRowCount(0);
         for (HoaDon hd : hdDAO.getAll()) {
-            modelHD.addRow(new Object[]{
-                hd.getMaHD(),
+            modelHD.addRow(new Object[]{hd.getMaHD(),
                 hd.getMaPhieu(),
                 hd.getNgayLap(),
                 hd.getTongTien(),
-                hd.isDaThanhToan() ? "Đã TT" : "Chưa TT"
-            });
+                hd.isDaThanhToan() ? "Đã TT" : "Chưa TT"});
         }
         loadCboMaPhieu();
     }
@@ -50,12 +49,22 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
     private void loadCboMaPhieu() {
         cboMaPhieu.removeAllItems();
         PhieuDAO phieuDAO = new PhieuDAO();
+
         for (String maPhieu : phieuDAO.getAllMaPhieu()) {
+            System.out.println("Load MaPhieu: " + maPhieu); // debug
             cboMaPhieu.addItem(maPhieu);
         }
     }
 
-    
+    private void loadTongTienTheoPhieu() {
+        String maPhieu = (String) cboMaPhieu.getSelectedItem();
+        if (maPhieu != null) {
+            HoaDonDAO hoaDonDAO = new HoaDonDAO();
+            double tongTien = hoaDonDAO.getTongTienByMaPhieu(maPhieu);
+            txtTongTien.setText(String.valueOf(tongTien));
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -119,6 +128,7 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
 
         jLabel20.setText("Tổng tiền");
 
+        txtTongTien.setEnabled(false);
         txtTongTien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTongTienActionPerformed(evt);
