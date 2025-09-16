@@ -11,9 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.KhachHang;
 import util.DBConnection;
+import util.RefreshablePanel;
 
 
-public class KhachHangPanel extends javax.swing.JPanel {
+public class KhachHangPanel extends javax.swing.JPanel implements RefreshablePanel{
 
     private KhachHangDAO dao = new KhachHangDAO();
     private DefaultTableModel model;
@@ -23,10 +24,10 @@ public class KhachHangPanel extends javax.swing.JPanel {
 
         model = new DefaultTableModel(new Object[]{"Mã KH", "Họ tên", "SĐT", "Địa chỉ"}, 0);
         tblKhachHang.setModel(model);
-        loadData();
+        refreshData();
     }
 
-    private void loadData() {
+    public void refreshData() {
         model.setRowCount(0);
         List<KhachHang> list = dao.getAll();
         for (KhachHang kh : list) {
@@ -68,7 +69,7 @@ public class KhachHangPanel extends javax.swing.JPanel {
         jButton1.setText("jButton1");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ KHÁCH HÀNG");
 
@@ -240,7 +241,7 @@ public class KhachHangPanel extends javax.swing.JPanel {
         );
         if (dao.insert(kh)) {
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
-            loadData();
+            refreshData();
             clearForm();
         } else {
             JOptionPane.showMessageDialog(this, "Thêm thất bại!");
@@ -256,7 +257,7 @@ public class KhachHangPanel extends javax.swing.JPanel {
         );
         if (dao.update(kh)) {
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-            loadData();
+            refreshData();
         } else {
             JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
         }
@@ -266,7 +267,7 @@ public class KhachHangPanel extends javax.swing.JPanel {
         String maKH = txtMaKH.getText();
         if (dao.delete(maKH)) {
             JOptionPane.showMessageDialog(this, "Xóa thành công!");
-            loadData();
+            refreshData();
             clearForm();
         } else {
             JOptionPane.showMessageDialog(this, "Xóa thất bại!");
@@ -275,7 +276,7 @@ public class KhachHangPanel extends javax.swing.JPanel {
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         clearForm();
-        loadData();
+        refreshData();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed

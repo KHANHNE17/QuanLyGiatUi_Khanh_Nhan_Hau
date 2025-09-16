@@ -9,9 +9,10 @@ import dao.PhieuDAO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
+import util.RefreshablePanel;
 
 
-public class HoaDonPanel extends javax.swing.JPanel {
+public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel{
 
     private HoaDonDAO hdDAO = new HoaDonDAO();
     private DefaultTableModel modelHD;
@@ -21,6 +22,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
 
         initData();
         loadCboMaPhieu();
+        refreshData();
     }
 
     private void initData() {
@@ -28,10 +30,10 @@ public class HoaDonPanel extends javax.swing.JPanel {
                 new Object[]{"Mã HD", "Mã Phiếu", "Ngày lập", "Tổng tiền", "Đã thanh toán"}, 0
         );
         tblHoaDon.setModel(modelHD);
-        loadData();
+        refreshData();
     }
 
-    private void loadData() {
+    public void refreshData() {
         modelHD.setRowCount(0);
         for (HoaDon hd : hdDAO.getAll()) {
             modelHD.addRow(new Object[]{
@@ -42,6 +44,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
                 hd.isDaThanhToan() ? "Đã TT" : "Chưa TT"
             });
         }
+        loadCboMaPhieu();
     }
 
     private void loadCboMaPhieu() {
@@ -52,6 +55,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
         }
     }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -78,7 +82,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
         jButton1.setText("jButton1");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ HÓA ĐƠN");
 
@@ -114,6 +118,12 @@ public class HoaDonPanel extends javax.swing.JPanel {
         jLabel17.setText("Đã thanh toán");
 
         jLabel20.setText("Tổng tiền");
+
+        txtTongTien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTongTienActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -248,7 +258,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
             cboMaPhieu.setSelectedIndex(0);
         }
         tblHoaDon.clearSelection();
-        loadData();
+        refreshData();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnInHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHoaDonActionPerformed
@@ -271,7 +281,7 @@ public class HoaDonPanel extends javax.swing.JPanel {
             HoaDon hd = new HoaDon(maHD, maPhieu, new java.sql.Date(ngay.getTime()), tongTien, daTT);
             if (hdDAO.insert(hd)) {
                 JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công!");
-                loadData();
+                refreshData();
             } else {
                 JOptionPane.showMessageDialog(this, "Không thể tạo hóa đơn!");
             }
@@ -280,6 +290,10 @@ public class HoaDonPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Lỗi dữ liệu: " + e.getMessage());
         }
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
+
+    private void txtTongTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTongTienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTongTienActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

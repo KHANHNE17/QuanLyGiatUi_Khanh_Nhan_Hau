@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import util.RefreshablePanel;
 
 
 public class MainFrame extends javax.swing.JFrame {
@@ -42,17 +43,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnLogout.setFocusPainted(false);
         btnLogout.setOpaque(false);
 
-        // Xóa viền, nền để logo phẳng
-        btnUser.setBorderPainted(false);
-        btnUser.setContentAreaFilled(false);
-        btnUser.setFocusPainted(false);
-        btnUser.setOpaque(false);
-
-        // Xóa viền, nền để logo phẳng
-        btnBell.setBorderPainted(false);
-        btnBell.setContentAreaFilled(false);
-        btnBell.setFocusPainted(false);
-        btnBell.setOpaque(false);
+        
 
         // CardLayout cho MainPanel
         cardLayout = new CardLayout();
@@ -75,6 +66,15 @@ public class MainFrame extends javax.swing.JFrame {
         // Hiển thị mặc định (ví dụ logo hay panel đầu tiên)
         cardLayout.show(MainPanel, "HOME"); // mở mặc định
     }
+    private void showPanel(String name) {
+        cardLayout.show(MainPanel, name);
+         
+        for (java.awt.Component comp : MainPanel.getComponents()) {
+            if (comp.isValid() && comp instanceof RefreshablePanel) {
+                ((RefreshablePanel) comp).refreshData();
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,8 +88,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         TopPanel = new javax.swing.JPanel();
         btnLogout = new javax.swing.JButton();
-        btnUser = new javax.swing.JButton();
-        btnBell = new javax.swing.JButton();
         LogoPanel = new javax.swing.JPanel();
         btnLOGO = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -118,41 +116,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/account_avatar_face_man_people_profile_user_icon_123197.png"))); // NOI18N
-        btnUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUserActionPerformed(evt);
-            }
-        });
-
-        btnBell.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ios7-bell_icon-icons.com_50334.png"))); // NOI18N
-        btnBell.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBellActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout TopPanelLayout = new javax.swing.GroupLayout(TopPanel);
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TopPanelLayout.createSequentialGroup()
-                .addContainerGap(655, Short.MAX_VALUE)
+                .addContainerGap(755, Short.MAX_VALUE)
                 .addComponent(btnLogout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBell, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -172,7 +149,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ TIỆM GIẶT ỦI");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -195,10 +172,8 @@ public class MainFrame extends javax.swing.JFrame {
         SideBarPanel.setBackground(new java.awt.Color(204, 204, 204));
 
         btnDichVu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnDichVu.setForeground(new java.awt.Color(51, 204, 255));
-        btnDichVu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/washing_machine_home_appliances_laundry_icon_229865.png"))); // NOI18N
+        btnDichVu.setForeground(new java.awt.Color(255, 102, 102));
         btnDichVu.setText("Dịch Vụ");
-        btnDichVu.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDichVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDichVuActionPerformed(evt);
@@ -206,10 +181,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnPhieuGiatUi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnPhieuGiatUi.setForeground(new java.awt.Color(51, 204, 255));
-        btnPhieuGiatUi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/4014672-bill-contract-cost-document-mobile-receipt-service_112892.png"))); // NOI18N
+        btnPhieuGiatUi.setForeground(new java.awt.Color(255, 102, 102));
         btnPhieuGiatUi.setText("Phiếu Giặt Ủi");
-        btnPhieuGiatUi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPhieuGiatUi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPhieuGiatUiActionPerformed(evt);
@@ -217,10 +190,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnKhachHang.setForeground(new java.awt.Color(51, 204, 255));
-        btnKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_accounts_15362.png"))); // NOI18N
+        btnKhachHang.setForeground(new java.awt.Color(255, 102, 102));
         btnKhachHang.setText("Khách Hàng");
-        btnKhachHang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnKhachHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKhachHangActionPerformed(evt);
@@ -228,10 +199,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnHoaDon.setForeground(new java.awt.Color(51, 204, 255));
-        btnHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pay_cash_payment_money_dollar_bill_icon_143267.png"))); // NOI18N
+        btnHoaDon.setForeground(new java.awt.Color(255, 102, 102));
         btnHoaDon.setText("Hóa Đơn");
-        btnHoaDon.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHoaDonActionPerformed(evt);
@@ -239,10 +208,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnThongKe.setForeground(new java.awt.Color(51, 204, 255));
-        btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marketing_strategy_finance_chart_laptop_management_business_icon_263043.png"))); // NOI18N
+        btnThongKe.setForeground(new java.awt.Color(255, 102, 102));
         btnThongKe.setText("Thống Kê");
-        btnThongKe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThongKeActionPerformed(evt);
@@ -337,28 +304,28 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhachHangActionPerformed
-        cardLayout.show(MainPanel, "QL_KHACHHANG");
+        showPanel("QL_KHACHHANG");
     }//GEN-LAST:event_btnKhachHangActionPerformed
 
     private void btnDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDichVuActionPerformed
-        cardLayout.show(MainPanel, "QL_DICHVU");
+        showPanel("QL_DICHVU");
     }//GEN-LAST:event_btnDichVuActionPerformed
 
     private void btnPhieuGiatUiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhieuGiatUiActionPerformed
-        cardLayout.show(MainPanel, "QL_PHIEUGIATUI");
+        showPanel("QL_PHIEUGIATUI");
     }//GEN-LAST:event_btnPhieuGiatUiActionPerformed
 
     private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
-        cardLayout.show(MainPanel, "QL_HOADON");
+        showPanel("QL_HOADON");
     }//GEN-LAST:event_btnHoaDonActionPerformed
 
     private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
-        cardLayout.show(MainPanel, "THONGKE");
+      showPanel("THONGKE");
     }//GEN-LAST:event_btnThongKeActionPerformed
 
     private void btnLOGOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOGOActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(MainPanel, "HOME");
+       showPanel("HOME");
     }//GEN-LAST:event_btnLOGOActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -376,14 +343,6 @@ public class MainFrame extends javax.swing.JFrame {
             });
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
-
-    private void btnBellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBellActionPerformed
-        JOptionPane.showMessageDialog(this, "Chức năng thông báo sẽ được triển khai trong tương lai!");
-    }//GEN-LAST:event_btnBellActionPerformed
-
-    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        JOptionPane.showMessageDialog(this, "Chức năng Account sẽ được triển khai trong tương lai!");
-    }//GEN-LAST:event_btnUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,7 +382,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel SideBarPanel;
     private javax.swing.JPanel TopPanel;
-    private javax.swing.JButton btnBell;
     private javax.swing.JButton btnDichVu;
     private javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnKhachHang;
@@ -431,7 +389,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPhieuGiatUi;
     private javax.swing.JButton btnThongKe;
-    private javax.swing.JButton btnUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

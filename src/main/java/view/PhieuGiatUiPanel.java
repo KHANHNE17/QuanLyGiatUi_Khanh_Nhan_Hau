@@ -20,9 +20,10 @@ import model.Phieu;
 import model.KhachHang;
 import model.DichVu;
 import util.DBConnection;
+import util.RefreshablePanel;
 
 
-public class PhieuGiatUiPanel extends javax.swing.JPanel {
+public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshablePanel {
 
     PhieuDAO phieuDAO = new PhieuDAO();
     ChiTietPhieuDAO ctDAO = new ChiTietPhieuDAO();
@@ -39,7 +40,8 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         initComponents();
 
         initData();
-
+        loadComboBox();
+        refreshData();
     }
 
     private void initData() {
@@ -51,11 +53,11 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         modelCT = new DefaultTableModel(new Object[]{"Mã Phiếu", "Mã DV", "Số lượng"}, 0);
         tblChiTietPhieu.setModel(modelCT);
 
-        loadPhieu();
+        refreshData();
         loadComboBox();
     }
 
-    private void loadPhieu() {
+    public void refreshData() {
         modelPhieu.setRowCount(0);
         List<Phieu> list = phieuDAO.getAll();
         for (Phieu p : list) {
@@ -63,6 +65,8 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
                 p.getMaPhieu(), p.getMaKH(), p.getNgayNhan(), p.getNgayTra(), p.getTrangThai()
             });
         }
+        loadComboBox();
+        
     }
 
     private void loadComboBox() {
@@ -257,12 +261,12 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ HỢP ĐỒNG");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel6.setForeground(new java.awt.Color(255, 102, 102));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Chi tiết phiếu");
 
@@ -378,7 +382,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         );
         if (phieuDAO.insert(p)) {
             JOptionPane.showMessageDialog(this, "Thêm thành công");
-            loadPhieu();
+            refreshData();
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -392,7 +396,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         );
         if (phieuDAO.update(p)) {
             JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-            loadPhieu();
+            refreshData();
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -400,7 +404,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel {
         String maPhieu = txtMaPhieu.getText();
         if (phieuDAO.delete(maPhieu)) {
             JOptionPane.showMessageDialog(this, "Xóa thành công");
-            loadPhieu();
+            refreshData();
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 

@@ -13,9 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.DichVu;
 import util.DBConnection;
+import util.RefreshablePanel;
 
 
-public class DichVuPanel extends javax.swing.JPanel {
+public class DichVuPanel extends javax.swing.JPanel implements RefreshablePanel{
 
     private DichVuDAO dao = new DichVuDAO();
     private DefaultTableModel model;
@@ -30,7 +31,7 @@ public class DichVuPanel extends javax.swing.JPanel {
         tblDichVu.setModel(model);
 
         // Load dữ liệu ban đầu
-        loadData();
+        refreshData();
 
         // Đổ combo đơn vị tính
         cboDonVi.removeAllItems();
@@ -40,7 +41,7 @@ public class DichVuPanel extends javax.swing.JPanel {
         cboDonVi.addItem("bộ");
     }
 
-    private void loadData() {
+    public void refreshData() {
         model.setRowCount(0);
         List<DichVu> list = dao.getAll();
         for (DichVu dv : list) {
@@ -86,9 +87,9 @@ public class DichVuPanel extends javax.swing.JPanel {
         jButton1.setText("jButton1");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("QUẢN LÝ PHÒNG");
+        jLabel1.setText("QUẢN LÝ DỊCH VỤ");
 
         tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -262,7 +263,7 @@ public class DichVuPanel extends javax.swing.JPanel {
             );
             if (dao.insert(dv)) {
                 JOptionPane.showMessageDialog(this, "Thêm dịch vụ thành công!");
-                loadData();
+                refreshData();
                 clearForm();
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại!");
@@ -282,7 +283,7 @@ public class DichVuPanel extends javax.swing.JPanel {
             );
             if (dao.update(dv)) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-                loadData();
+                refreshData();
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
             }
@@ -299,7 +300,7 @@ public class DichVuPanel extends javax.swing.JPanel {
         }
         if (dao.delete(maDV)) {
             JOptionPane.showMessageDialog(this, "Xóa thành công!");
-            loadData();
+            refreshData();
             clearForm();
         } else {
             JOptionPane.showMessageDialog(this, "Xóa thất bại!");
@@ -308,7 +309,7 @@ public class DichVuPanel extends javax.swing.JPanel {
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         clearForm();
-        loadData();
+        refreshData();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
