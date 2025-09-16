@@ -330,7 +330,7 @@ public class LoginFrame extends javax.swing.JFrame {
         }
 
         // --- Tài khoản mặc định ---
-        if (username.equals("admin") && password.equals("admin")) {
+        if (username.equals("admin") && password.equals("123456")) {
             JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Xin chào " + username);
             this.dispose(); // đóng LoginFrame
 

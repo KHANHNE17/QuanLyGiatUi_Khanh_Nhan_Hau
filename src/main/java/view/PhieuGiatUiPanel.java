@@ -39,12 +39,12 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
     public PhieuGiatUiPanel() throws SQLException {
         initComponents();
 
-        initData();
-        loadComboBox();
+        KhoiTaoBang();
+        DuLieucbo();
         refreshData();
     }
 
-    private void initData() {
+    private void KhoiTaoBang() {
         // Setup bảng phiếu
         modelPhieu = new DefaultTableModel(new Object[]{"Mã Phiếu", "Mã KH", "Ngày nhận", "Ngày trả", "Trạng thái"}, 0);
         tblPhieu.setModel(modelPhieu);
@@ -54,7 +54,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
         tblChiTietPhieu.setModel(modelCT);
 
         refreshData();
-        loadComboBox();
+        DuLieucbo();
     }
 
     public void refreshData() {
@@ -65,11 +65,11 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
                 p.getMaPhieu(), p.getMaKH(), p.getNgayNhan(), p.getNgayTra(), p.getTrangThai()
             });
         }
-        loadComboBox();
+        DuLieucbo();
         
     }
 
-    private void loadComboBox() {
+    private void DuLieucbo() {
         cboMaKH.removeAllItems();
         for (KhachHang kh : khDAO.getAll()) {
             cboMaKH.addItem(kh.getMaKH());
@@ -80,7 +80,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
         cboTrangThai.addItem("Hoàn tất");
     }
 
-    private void loadChiTiet(String maPhieu) {
+    private void chitietPhieu(String maPhieu) {
         modelCT.setRowCount(0);
         for (ChiTietPhieu ct : ctDAO.getByPhieu(maPhieu)) {
             modelCT.addRow(new Object[]{ct.getMaPhieu(), ct.getMaDV(), ct.getSoLuong()});
@@ -368,7 +368,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
             dtpNgayTra.setDate((java.util.Date) tblPhieu.getValueAt(row, 3));
             cboTrangThai.setSelectedItem(tblPhieu.getValueAt(row, 4).toString());
 
-            loadChiTiet(maPhieu);
+            chitietPhieu(maPhieu);
         }
     }//GEN-LAST:event_tblPhieuMouseClicked
 
@@ -429,7 +429,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
             modelPhieu.addRow(new Object[]{
                 p.getMaPhieu(), p.getMaKH(), p.getNgayNhan(), p.getNgayTra(), p.getTrangThai()
             });
-            loadChiTiet(ma);
+            chitietPhieu(ma);
         } else {
             JOptionPane.showMessageDialog(this, "Không tìm thấy phiếu!");
         }
@@ -464,7 +464,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
         ChiTietPhieu ct = new ChiTietPhieu(maPhieu, maDV, soLuong);
         if (ctDAO.insert(ct)) {
             JOptionPane.showMessageDialog(this, "Thêm dịch vụ thành công");
-            loadChiTiet(maPhieu);
+            chitietPhieu(maPhieu);
         }
     }//GEN-LAST:event_btnThemDVActionPerformed
 
@@ -479,7 +479,7 @@ public class PhieuGiatUiPanel extends javax.swing.JPanel implements RefreshableP
 
         if (ctDAO.delete(maPhieu, maDV)) {
             JOptionPane.showMessageDialog(this, "Xóa dịch vụ thành công");
-            loadChiTiet(maPhieu);
+            chitietPhieu(maPhieu);
         }
     }//GEN-LAST:event_btnXoaDVActionPerformed
 

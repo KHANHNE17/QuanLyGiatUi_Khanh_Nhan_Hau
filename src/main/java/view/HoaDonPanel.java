@@ -19,14 +19,14 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel 
     public HoaDonPanel() {
         initComponents();
 
-        initData();
-        loadCboMaPhieu();
+        KhoiTaoBang();
+        cboMaPhieu();
         refreshData();
 
         cboMaPhieu.addActionListener(e -> loadTongTienTheoPhieu());
     }
 
-    private void initData() {
+    private void KhoiTaoBang() {
         modelHD = new DefaultTableModel(
                 new Object[]{"Mã HD", "Mã Phiếu", "Ngày lập", "Tổng tiền", "Đã thanh toán"}, 0
         );
@@ -43,10 +43,10 @@ public class HoaDonPanel extends javax.swing.JPanel implements RefreshablePanel 
                 hd.getTongTien(),
                 hd.isDaThanhToan() ? "Đã TT" : "Chưa TT"});
         }
-        loadCboMaPhieu();
+        cboMaPhieu();
     }
 
-    private void loadCboMaPhieu() {
+    private void cboMaPhieu() {
         cboMaPhieu.removeAllItems();
         PhieuDAO phieuDAO = new PhieuDAO();
 

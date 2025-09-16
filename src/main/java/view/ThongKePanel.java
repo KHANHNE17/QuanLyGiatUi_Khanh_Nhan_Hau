@@ -26,8 +26,8 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
         initComponents();
 
         conn = DBConnection.getConnection();
-        initTable();
-        loadComboBox();
+        KhoiTaoBang();
+        DuLieucbo();
 
         chkTheoNam.setSelected(true);
         cboThang.setEnabled(false);
@@ -35,7 +35,7 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
         if (cboNam.getItemCount() > 0) {
             cboNam.setSelectedIndex(cboNam.getItemCount() - 1);
             int nam = Integer.parseInt(cboNam.getSelectedItem().toString());
-            loadData(0, nam, true);
+            loadDuLieu(0, nam, true);
         }
 
         cboNam.addActionListener(e -> autoLoadData());
@@ -47,7 +47,7 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
     }
 
     // ======== KHỞI TẠO TABLE ========
-    private void initTable() {
+    private void KhoiTaoBang() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{
             "Mã Phiếu", "Khách Hàng", "Ngày Nhận", "Ngày Trả", "Dịch Vụ", "Số Lượng", "Thành Tiền"
@@ -60,7 +60,7 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
         });
     }
 
-    private void loadComboBox() {
+    private void DuLieucbo() {
         cboThang.removeAllItems();
         for (int i = 1; i <= 12; i++) {
             cboThang.addItem(String.valueOf(i));
@@ -78,7 +78,7 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
         }
     }
 
-    private void loadData(int thang, int nam, boolean theoNam) {
+    private void loadDuLieu(int thang, int nam, boolean theoNam) {
         tableModel.setRowCount(0);
         double dtGiatUi = 0, dtGiatKho = 0, dtChanMen = 0, dtGiay = 0, tongDT = 0;
 
@@ -145,13 +145,13 @@ public class ThongKePanel extends javax.swing.JPanel implements RefreshablePanel
         if (!theoNam && cboThang.getSelectedItem() != null) {
             thang = Integer.parseInt(cboThang.getSelectedItem().toString());
         }
-        loadData(thang, nam, theoNam);
+        loadDuLieu(thang, nam, theoNam);
     }
 
     @Override
     public void refreshData()
     {
-        loadData(WIDTH, WIDTH, true);
+        loadDuLieu(WIDTH, WIDTH, true);
         autoLoadData();
     }
     @SuppressWarnings("unchecked")
